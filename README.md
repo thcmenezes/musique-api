@@ -2,7 +2,7 @@
 
 API REST da Musique para cadastro de artistas, álbuns e sessão de mood, com arquitetura em camadas, validação, tratamento global de exceções e migrations Flyway.
 
-## Stack
+## Tecnologias
 
 - Java 25
 - Spring Boot 3.5
@@ -14,14 +14,14 @@ API REST da Musique para cadastro de artistas, álbuns e sessão de mood, com ar
 
 ## Estrutura
 
-- `src/main/java/com/musique/api/controller`: endpoints REST
+- `src/main/java/com/musique/api/controller`: endpoints da API REST
 - `src/main/java/com/musique/api/service`: regras de negócio
 - `src/main/java/com/musique/api/domain`: entidades e repositórios
-- `src/main/java/com/musique/api/dto`: contratos de request/response
-- `src/main/java/com/musique/api/exception`: erros e handler global
+- `src/main/java/com/musique/api/dto`: contratos de requisição/resposta
+- `src/main/java/com/musique/api/exception`: erros e manipulador global
 - `src/main/resources/db/migration`: scripts Flyway
 
-## Pre-requisitos
+## Pré-requisitos
 
 1. JDK 25 instalado e configurado no `JAVA_HOME`
 2. Maven 3.9+
@@ -37,21 +37,21 @@ Observação: neste projeto usamos **YAML** (`application.yml`) em vez de `appli
 
 As configurações de conexão no `application.yml` estão parametrizadas por variáveis de ambiente:
 
-- `SPRING_DATASOURCE_URL` (default: `jdbc:postgresql://localhost:5432/musique`)
-- `SPRING_DATASOURCE_USERNAME` (default: `postgres`)
-- `SPRING_DATASOURCE_PASSWORD` (default: `postgres`)
-- `SERVER_PORT` (default: `8080`)
+- `SPRING_DATASOURCE_URL` (padrão: `jdbc:postgresql://localhost:5432/musique`)
+- `SPRING_DATASOURCE_USERNAME` (padrão: `postgres`)
+- `SPRING_DATASOURCE_PASSWORD` (padrão: `postgres`)
+- `SERVER_PORT` (padrão: `8080`)
 
 Configuração da integração com Spotify:
 
-- `APP_SPOTIFY_CLIENT_ID` (obrigatorio para consulta real)
-- `APP_SPOTIFY_CLIENT_SECRET` (obrigatorio para consulta real)
-- `APP_SPOTIFY_ACCOUNTS_BASE_URL` (default: `https://accounts.spotify.com`)
-- `APP_SPOTIFY_API_BASE_URL` (default: `https://api.spotify.com`)
+- `APP_SPOTIFY_CLIENT_ID` (obrigatório para consulta real)
+- `APP_SPOTIFY_CLIENT_SECRET` (obrigatório para consulta real)
+- `APP_SPOTIFY_ACCOUNTS_BASE_URL` (padrão: `https://accounts.spotify.com`)
+- `APP_SPOTIFY_API_BASE_URL` (padrão: `https://api.spotify.com`)
 
-## Integracao com Spotify (o que ela faz)
+## Integração com Spotify (o que ela faz)
 
-Quando voce cria ou atualiza um album em `POST /api/albums` ou `PUT /api/albums/{id}`:
+Quando você cria ou atualiza um álbum em `POST /api/albums` ou `PUT /api/albums/{id}`:
 
 1. A API consulta o Spotify usando **Client Credentials Flow** (server-to-server).
 2. Busca o álbum pelo nome + artista.
@@ -68,7 +68,7 @@ Se não encontrar correspondência, a API retorna erro de negócio amigável (se
 
 1. Crie um app no [Spotify for Developers](https://developer.spotify.com/dashboard)
 2. Copie o **Client ID** e o **Client Secret**
-3. Opcional: crie um arquivo `.env` na **raiz do `musique-api`** (mesmo nivel do `pom.xml`) com:
+3. Opcional: crie um arquivo `.env` na **raiz do `musique-api`** (mesmo nível do `pom.xml`) com:
 
 ```env
 APP_SPOTIFY_CLIENT_ID=seu_client_id
@@ -77,7 +77,7 @@ APP_SPOTIFY_CLIENT_SECRET=seu_client_secret
 
 A aplicação carrega esse arquivo na inicialização. **Variáveis de ambiente do sistema continuam com prioridade** sobre o `.env`.
 
-4. Ou defina variaveis de ambiente antes de subir a API:
+4. Ou defina variáveis de ambiente antes de subir a API:
 
 PowerShell:
 
@@ -122,7 +122,7 @@ O banco sobe com volume persistente:
 
 - `musique_postgres_data`
 
-Parar/remover container e rede:
+Parar/remover contêiner e rede:
 
 ```bash
 docker-compose down
@@ -160,7 +160,7 @@ Ao iniciar a API, o Flyway executa automaticamente migrations pendentes.
 mvn test
 ```
 
-## 6) Endpoints
+## 6) Rotas
 
 ### Artistas
 
@@ -178,7 +178,7 @@ mvn test
 - `PUT /api/albums/{id}`
 - `DELETE /api/albums/{id}`
 
-Request de criação/atualização:
+Corpo da requisição de criação/atualização:
 
 ```json
 {
@@ -203,7 +203,7 @@ Request de criação/atualização:
 }
 ```
 
-## Contrato de álbum (response)
+## Contrato de álbum (resposta)
 
 `AlbumResponse` agora retorna o objeto `artist` completo:
 
@@ -228,7 +228,7 @@ Request de criação/atualização:
 - O `rating` dos álbuns deve estar entre `0.0` e `5.0`
 - O `rating` aceita apenas incrementos de `0.5` (ex.: `3.5`, `4.0`, `4.5`)
 
-## Collections
+## Coleções
 
 - Postman: `collections/musique-api.postman_collection.json`
 - Insomnia: `collections/musique-api.insomnia_collection.json`
