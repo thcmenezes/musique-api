@@ -1,6 +1,6 @@
 # musique-api
 
-API REST da Musique para cadastro de artistas, albuns e sessao de mood, com arquitetura em camadas, validacao, tratamento global de excecoes e migrations Flyway.
+API REST da Musique para cadastro de artistas, álbuns e sessão de mood, com arquitetura em camadas, validação, tratamento global de exceções e migrations Flyway.
 
 ## Stack
 
@@ -15,8 +15,8 @@ API REST da Musique para cadastro de artistas, albuns e sessao de mood, com arqu
 ## Estrutura
 
 - `src/main/java/com/musique/api/controller`: endpoints REST
-- `src/main/java/com/musique/api/service`: regras de negocio
-- `src/main/java/com/musique/api/domain`: entidades e repositorios
+- `src/main/java/com/musique/api/service`: regras de negócio
+- `src/main/java/com/musique/api/domain`: entidades e repositórios
 - `src/main/java/com/musique/api/dto`: contratos de request/response
 - `src/main/java/com/musique/api/exception`: erros e handler global
 - `src/main/resources/db/migration`: scripts Flyway
@@ -27,22 +27,22 @@ API REST da Musique para cadastro de artistas, albuns e sessao de mood, com arqu
 2. Maven 3.9+
 3. Docker Desktop (ou Docker Engine + Compose)
 
-## 1) Arquivo central de configuracao da API
+## 1) Arquivo central de configuração da API
 
-O arquivo central da API e:
+O arquivo central da API é:
 
 - `src/main/resources/application.yml`
 
-Observacao: neste projeto usamos **YAML** (`application.yml`) em vez de `application.properties`.
+Observação: neste projeto usamos **YAML** (`application.yml`) em vez de `application.properties`.
 
-As configuracoes de conexao no `application.yml` estao parametrizadas por variaveis de ambiente:
+As configurações de conexão no `application.yml` estão parametrizadas por variáveis de ambiente:
 
 - `SPRING_DATASOURCE_URL` (default: `jdbc:postgresql://localhost:5432/musique`)
 - `SPRING_DATASOURCE_USERNAME` (default: `postgres`)
 - `SPRING_DATASOURCE_PASSWORD` (default: `postgres`)
 - `SERVER_PORT` (default: `8080`)
 
-Configuracao da integracao com Spotify:
+Configuração da integração com Spotify:
 
 - `APP_SPOTIFY_CLIENT_ID` (obrigatorio para consulta real)
 - `APP_SPOTIFY_CLIENT_SECRET` (obrigatorio para consulta real)
@@ -53,18 +53,18 @@ Configuracao da integracao com Spotify:
 
 Quando voce cria ou atualiza um album em `POST /api/albums` ou `PUT /api/albums/{id}`:
 
-1. A API consulta o Spotify usando **Client Credentials Flow** (server-to-server)
-2. Busca o album pelo nome + artista
-3. Seleciona a melhor correspondencia valida
+1. A API consulta o Spotify usando **Client Credentials Flow** (server-to-server).
+2. Busca o álbum pelo nome + artista.
+3. Seleciona a melhor correspondência válida.
 4. Persiste automaticamente:
    - `coverUrl` (capa)
-   - `idExternal` (id do Spotify)
-   - `spotifyUrl` (link publico)
-5. Retorna esses dados no `AlbumResponse`
+   - `idExternal` (ID do Spotify)
+   - `spotifyUrl` (link público)
+5. Retorna esses dados no `AlbumResponse`.
 
-Se nao encontrar correspondencia, a API retorna erro de negocio amigavel (sem 500 generico).
+Se não encontrar correspondência, a API retorna erro de negócio amigável (sem 500 genérico).
 
-## Como configurar credenciais Spotify
+## Como configurar credenciais do Spotify
 
 1. Crie um app no [Spotify for Developers](https://developer.spotify.com/dashboard)
 2. Copie o **Client ID** e o **Client Secret**
@@ -75,7 +75,7 @@ APP_SPOTIFY_CLIENT_ID=seu_client_id
 APP_SPOTIFY_CLIENT_SECRET=seu_client_secret
 ```
 
-A aplicacao carrega esse arquivo na inicializacao. **Variaveis de ambiente do sistema continuam com prioridade** sobre o `.env`.
+A aplicação carrega esse arquivo na inicialização. **Variáveis de ambiente do sistema continuam com prioridade** sobre o `.env`.
 
 4. Ou defina variaveis de ambiente antes de subir a API:
 
@@ -93,7 +93,7 @@ export APP_SPOTIFY_CLIENT_ID="seu_client_id"
 export APP_SPOTIFY_CLIENT_SECRET="seu_client_secret"
 ```
 
-> Sem essas credenciais a criacao/atualizacao de album nao consegue enriquecer com dados do Spotify.
+> Sem essas credenciais, a criação/atualização de álbum não consegue enriquecer com dados do Spotify.
 
 ## 2) Subir somente o banco com Docker Compose
 
@@ -102,7 +102,7 @@ Na raiz do `musique-api` existem os arquivos:
 - `docker-compose.yml`
 - `.env`
 
-No arquivo `.env`, defina (ou ajuste) as credenciais do banco **e, se quiser, as do Spotify** (tambem lidas pela API ao rodar localmente):
+No arquivo `.env`, defina (ou ajuste) as credenciais do banco **e, se quiser, as do Spotify** (também lidas pela API ao rodar localmente):
 
 ```env
 POSTGRES_DB=musique
@@ -128,7 +128,7 @@ Parar/remover container e rede:
 docker-compose down
 ```
 
-Parar/remover tambem o volume (apaga os dados):
+Parar/remover também o volume (apaga os dados):
 
 ```bash
 docker-compose down -v
@@ -170,7 +170,7 @@ mvn test
 - `PUT /api/artists/{id}`
 - `DELETE /api/artists/{id}`
 
-### Albuns
+### Álbuns
 
 - `POST /api/albums`
 - `GET /api/albums`
@@ -178,7 +178,7 @@ mvn test
 - `PUT /api/albums/{id}`
 - `DELETE /api/albums/{id}`
 
-Request de criacao/atualizacao:
+Request de criação/atualização:
 
 ```json
 {
@@ -203,9 +203,9 @@ Request de criacao/atualizacao:
 }
 ```
 
-## Contrato de album (response)
+## Contrato de álbum (response)
 
-`AlbumResponse` agora retorna objeto `artist` completo:
+`AlbumResponse` agora retorna o objeto `artist` completo:
 
 ```json
 {
@@ -225,7 +225,7 @@ Request de criacao/atualizacao:
 
 ## Regra de rating
 
-- O `rating` dos albuns deve estar entre `0.0` e `5.0`
+- O `rating` dos álbuns deve estar entre `0.0` e `5.0`
 - O `rating` aceita apenas incrementos de `0.5` (ex.: `3.5`, `4.0`, `4.5`)
 
 ## Collections
@@ -233,4 +233,4 @@ Request de criacao/atualizacao:
 - Postman: `collections/musique-api.postman_collection.json`
 - Insomnia: `collections/musique-api.insomnia_collection.json`
 
-As colecoes ja estao atualizadas para o fluxo Spotify (request de album enxuto e enriquecimento automatico na resposta).
+As coleções já estão atualizadas para o fluxo Spotify (request de álbum enxuto e enriquecimento automático na resposta).
