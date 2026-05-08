@@ -1,0 +1,16 @@
+/target/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# IDE/editor
+/.idea/
+*.iml
+/.vscode/
+
+# Logs and system files
+*.log
+.DS_Store
+Thumbs.db

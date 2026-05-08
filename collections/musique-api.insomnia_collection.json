@@ -1,0 +1,197 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-05-07T15:30:00.000Z",
+  "__export_source": "musique-api",
+  "resources": [
+    {
+      "_id": "wrk_musique_api",
+      "_type": "workspace",
+      "name": "musique-api",
+      "description": "Workspace para CRUD de artistas, albuns e mood com enriquecimento Spotify em albuns"
+    },
+    {
+      "_id": "env_musique_api_base",
+      "_type": "environment",
+      "parentId": "wrk_musique_api",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:8080",
+        "artist_id": 1,
+        "album_id": 1
+      }
+    },
+    {
+      "_id": "fld_artists",
+      "_type": "request_group",
+      "parentId": "wrk_musique_api",
+      "name": "Artists"
+    },
+    {
+      "_id": "fld_albums",
+      "_type": "request_group",
+      "parentId": "wrk_musique_api",
+      "name": "Albums"
+    },
+    {
+      "_id": "fld_mood",
+      "_type": "request_group",
+      "parentId": "wrk_musique_api",
+      "name": "Mood"
+    },
+    {
+      "_id": "req_create_artist",
+      "_type": "request",
+      "parentId": "fld_artists",
+      "name": "Create Artist",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/artists",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Daft Punk\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_list_artists",
+      "_type": "request",
+      "parentId": "fld_artists",
+      "name": "List Artists",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/artists"
+    },
+    {
+      "_id": "req_get_artist",
+      "_type": "request",
+      "parentId": "fld_artists",
+      "name": "Get Artist By Id",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/artists/{{ _.artist_id }}"
+    },
+    {
+      "_id": "req_update_artist",
+      "_type": "request",
+      "parentId": "fld_artists",
+      "name": "Update Artist",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/artists/{{ _.artist_id }}",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Daft Punk (Updated)\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_delete_artist",
+      "_type": "request",
+      "parentId": "fld_artists",
+      "name": "Delete Artist",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/artists/{{ _.artist_id }}"
+    },
+    {
+      "_id": "req_create_album",
+      "_type": "request",
+      "parentId": "fld_albums",
+      "name": "Create Album",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/albums",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Dark Matter\",\n  \"releaseYear\": 2024,\n  \"rating\": 4.5,\n  \"artistId\": {{ _.artist_id }}\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_list_albums",
+      "_type": "request",
+      "parentId": "fld_albums",
+      "name": "List Albums",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/albums"
+    },
+    {
+      "_id": "req_get_album",
+      "_type": "request",
+      "parentId": "fld_albums",
+      "name": "Get Album By Id",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/albums/{{ _.album_id }}"
+    },
+    {
+      "_id": "req_update_album",
+      "_type": "request",
+      "parentId": "fld_albums",
+      "name": "Update Album",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/albums/{{ _.album_id }}",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Dark Matter (Deluxe)\",\n  \"releaseYear\": 2024,\n  \"rating\": 5.0,\n  \"artistId\": {{ _.artist_id }}\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_delete_album",
+      "_type": "request",
+      "parentId": "fld_albums",
+      "name": "Delete Album",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/albums/{{ _.album_id }}"
+    },
+    {
+      "_id": "req_list_mood",
+      "_type": "request",
+      "parentId": "fld_mood",
+      "name": "List Mood Albums",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/mood"
+    },
+    {
+      "_id": "req_add_mood",
+      "_type": "request",
+      "parentId": "fld_mood",
+      "name": "Add Album To Mood",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/mood",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"albumId\": {{ _.album_id }}\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_remove_mood",
+      "_type": "request",
+      "parentId": "fld_mood",
+      "name": "Remove Album From Mood",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/mood/{{ _.album_id }}"
+    }
+  ]
+}
